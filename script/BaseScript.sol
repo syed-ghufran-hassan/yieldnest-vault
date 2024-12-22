@@ -10,7 +10,6 @@ import {VaultUtils} from "script/VaultUtils.sol";
 
 import {IVaultViewer} from "src/interface/IVaultViewer.sol";
 import {BaseVaultViewer} from "src/utils/BaseVaultViewer.sol";
-import {IVault} from "src/interface/IVault.sol";
 import {Vault} from "src/Vault.sol";
 
 import {TransparentUpgradeableProxy as TUP} from
@@ -21,7 +20,7 @@ import {Strings} from "lib/openzeppelin-contracts/contracts/utils/Strings.sol";
 
 import {ProxyUtils} from "script/ProxyUtils.sol";
 
-abstract contract BaseScript is Script, VaultUtils {
+abstract contract BaseScript is Script, VaultUtils, ProxyUtils {
     using stdJson for string;
 
     uint256 public minDelay;
@@ -42,7 +41,7 @@ abstract contract BaseScript is Script, VaultUtils {
     // needs to be overriden by child script
     function symbol() public view virtual returns (string memory);
 
-    function _setup() public {
+    function _setup() public virtual {
         deployer = msg.sender;
 
         if (block.chainid == 97) {
@@ -60,7 +59,7 @@ abstract contract BaseScript is Script, VaultUtils {
         }
     }
 
-    function _verifySetup() public view {
+    function _verifySetup() public view virtual {
         if (block.chainid != 56 && block.chainid != 97) {
             revert UnsupportedChain();
         }
@@ -161,16 +160,16 @@ abstract contract BaseScript is Script, VaultUtils {
 
     function _saveDeployment() internal virtual {
         vm.serializeString(symbol(), "symbol", symbol());
-        vm.serializeAddress(symbol(), "deployer", msg.sender);
+        vm.serializeAddress(symbol(), "deployer", deployer);
         vm.serializeAddress(symbol(), "admin", actors.ADMIN());
         vm.serializeAddress(symbol(), "timelock", address(timelock));
         vm.serializeAddress(symbol(), "rateProvider", address(rateProvider));
 
-        vm.serializeAddress(symbol(), "viewer-proxyAdmin", ProxyUtils.getProxyAdmin(address(viewer)));
+        vm.serializeAddress(symbol(), "viewer-proxyAdmin", getProxyAdmin(address(viewer)));
         vm.serializeAddress(symbol(), "viewer-proxy", address(viewer));
         vm.serializeAddress(symbol(), "viewer-implementation", address(viewerImplementation));
 
-        vm.serializeAddress(symbol(), string.concat(symbol(), "-proxyAdmin"), ProxyUtils.getProxyAdmin(address(vault)));
+        vm.serializeAddress(symbol(), string.concat(symbol(), "-proxyAdmin"), getProxyAdmin(address(vault)));
         vm.serializeAddress(symbol(), string.concat(symbol(), "-proxy"), address(vault));
 
         string memory jsonOutput =

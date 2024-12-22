@@ -23,7 +23,7 @@ contract BaseVaultViewer is Initializable, IVaultViewer {
     }
 
     function initialize(address vault_) external initializer {
-        getViewerStorage().vault = vault_;
+        _getViewerStorage().vault = vault_;
     }
 
     /**
@@ -40,7 +40,7 @@ contract BaseVaultViewer is Initializable, IVaultViewer {
     }
 
     function _getAssets() internal view returns (AssetInfo[] memory assetsInfo) {
-        IVault vault = IVault(getViewerStorage().vault);
+        IVault vault = IVault(_getViewerStorage().vault);
 
         address[] memory assets = vault.getAssets();
         uint256[] memory balances = new uint256[](assets.length);
@@ -57,7 +57,7 @@ contract BaseVaultViewer is Initializable, IVaultViewer {
         view
         returns (AssetInfo[] memory assetsInfo)
     {
-        IVault vault = IVault(getViewerStorage().vault);
+        IVault vault = IVault(_getViewerStorage().vault);
         IProvider rateProvider = IProvider(vault.provider());
         uint256 totalAssets = vault.totalAssets();
 
@@ -87,7 +87,7 @@ contract BaseVaultViewer is Initializable, IVaultViewer {
     }
 
     function getRate() external view returns (uint256) {
-        IVault vault = IVault(getViewerStorage().vault);
+        IVault vault = IVault(_getViewerStorage().vault);
         uint256 totalSupply = vault.totalSupply();
         uint256 totalAssets = vault.totalAssets();
         uint256 decimals = vault.decimals();
@@ -97,16 +97,17 @@ contract BaseVaultViewer is Initializable, IVaultViewer {
     }
 
     function getVault() external view returns (address) {
-        return address(getViewerStorage().vault);
+        return address(_getViewerStorage().vault);
     }
 
     /**
      * @notice Internal function to get the storage.
      * @return $ The storage.
      */
-    function getViewerStorage() internal pure virtual returns (ViewerStorage storage $) {
+    function _getViewerStorage() internal pure virtual returns (ViewerStorage storage $) {
         assembly {
-            $.slot := 0x22cdba5640455d74cb7564fb236bbbbaf66b93a0cc1bd221f1ee2a6b2d0a2427
+            // keccak256("yieldnest.storage.viewer")
+            $.slot := 0x31072d51952392ebd49493bde797d4cf3dd9344b0678a5bffe19d9ead93005a8
         }
     }
 }
