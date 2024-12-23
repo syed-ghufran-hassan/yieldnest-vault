@@ -12,7 +12,7 @@ import {IVaultViewer} from "src/interface/IVaultViewer.sol";
 import {BaseVaultViewer} from "src/utils/BaseVaultViewer.sol";
 import {Vault} from "src/Vault.sol";
 
-import {TransparentUpgradeableProxy as TUP} from
+import {TransparentUpgradeableProxy} from
     "lib/openzeppelin-contracts/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 import {TimelockController} from "lib/openzeppelin-contracts/contracts/governance/TimelockController.sol";
@@ -80,7 +80,8 @@ abstract contract BaseScript is Script, VaultUtils, ProxyUtils {
 
         bytes memory initData = abi.encodeWithSelector(BaseVaultViewer.initialize.selector, address(vault));
 
-        TUP proxy = new TUP(address(viewerImplementation), actors.ADMIN(), initData);
+        TransparentUpgradeableProxy proxy =
+            new TransparentUpgradeableProxy(address(viewerImplementation), actors.ADMIN(), initData);
 
         viewer = IVaultViewer(payable(address(proxy)));
     }

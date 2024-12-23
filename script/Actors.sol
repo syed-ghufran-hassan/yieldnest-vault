@@ -28,35 +28,37 @@ interface IActors {
 }
 
 contract TestnetActors is IActors {
-    address public constant ADMIN = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant PROCESSOR = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant PROPOSER_1 = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant PROPOSER_2 = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant EXECUTOR_1 = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant EXECUTOR_2 = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
+    address public constant ynSecurityCouncil = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
+    address public constant ADMIN = ynSecurityCouncil;
+    address public constant PROCESSOR = ynSecurityCouncil;
+    address public constant PROPOSER_1 = ynSecurityCouncil;
+    address public constant PROPOSER_2 = ynSecurityCouncil;
+    address public constant EXECUTOR_1 = ynSecurityCouncil;
+    address public constant EXECUTOR_2 = ynSecurityCouncil;
 
-    address public constant FEE_MANAGER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant PROVIDER_MANAGER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant BUFFER_MANAGER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant ASSET_MANAGER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant PROCESSOR_MANAGER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant PAUSER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant UNPAUSER = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
+    address public constant FEE_MANAGER = ynSecurityCouncil;
+    address public constant PROVIDER_MANAGER = ynSecurityCouncil;
+    address public constant BUFFER_MANAGER = ynSecurityCouncil;
+    address public constant ASSET_MANAGER = ynSecurityCouncil;
+    address public constant PROCESSOR_MANAGER = ynSecurityCouncil;
+    address public constant PAUSER = ynSecurityCouncil;
+    address public constant UNPAUSER = ynSecurityCouncil;
 }
 
 contract MainnetActors is IActors {
-    address public constant ADMIN = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant PROCESSOR = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant EXECUTOR_1 = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant PROPOSER_1 = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant EXECUTOR_2 = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant PROPOSER_2 = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
+    address public constant ynSecurityCouncil = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
+    address public constant ADMIN = ynSecurityCouncil;
+    address public constant PROCESSOR = ynSecurityCouncil;
+    address public constant EXECUTOR_1 = ynSecurityCouncil;
+    address public constant PROPOSER_1 = ynSecurityCouncil;
+    address public constant EXECUTOR_2 = ynSecurityCouncil;
+    address public constant PROPOSER_2 = ynSecurityCouncil;
 
-    address public constant FEE_MANAGER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant PROVIDER_MANAGER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant BUFFER_MANAGER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant ASSET_MANAGER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant PROCESSOR_MANAGER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant PAUSER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant UNPAUSER = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
+    address public constant FEE_MANAGER = ynSecurityCouncil;
+    address public constant PROVIDER_MANAGER = ynSecurityCouncil;
+    address public constant BUFFER_MANAGER = ynSecurityCouncil;
+    address public constant ASSET_MANAGER = ynSecurityCouncil;
+    address public constant PROCESSOR_MANAGER = ynSecurityCouncil;
+    address public constant PAUSER = ynSecurityCouncil;
+    address public constant UNPAUSER = ynSecurityCouncil;
 }

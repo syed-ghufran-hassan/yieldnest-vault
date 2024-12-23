@@ -53,7 +53,7 @@ contract DeployMaxVault is BaseScript {
         implementation = new Vault();
 
         address admin = msg.sender;
-        // TODO: verify and confirm name of vault
+
         string memory name = "YieldNest BNB Max";
         string memory symbol_ = "ynBNBx";
         uint8 decimals = 18;
@@ -139,6 +139,7 @@ contract DeployMaxVault is BaseScript {
 
         // wbnb
         setWethDepositRule(vault, contracts.WBNB());
+        setWithdrawAssetRule(vault, contracts.YNCLISBNBK(), contracts.WBNB());
 
         vault.unpause();
 

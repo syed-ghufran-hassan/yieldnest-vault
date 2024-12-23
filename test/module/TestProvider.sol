@@ -16,7 +16,7 @@ contract TestProvider is IProvider {
         // support only ynWBNBK for now
         // if (asset == TC.YNWBNBK || asset == TC.YNBNBK || asset == TC.YNCLISBNBK) {
         if (asset == TC.YNWBNBK) {
-            return IERC4626(asset).previewRedeem(1e18);
+            return IERC4626(asset).convertToAssets(1e18);
         }
 
         if (asset == TC.WBNB) {
