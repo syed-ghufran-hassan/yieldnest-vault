@@ -16,7 +16,7 @@ contract Provider is IProvider {
 
     function getRate(address asset) external view override returns (uint256) {
         if (asset == MC.BUFFER || asset == MC.YNBNBk) {
-            return IERC4626(asset).previewRedeem(1e18);
+            return IERC4626(asset).convertToAssets(1e18);
         }
 
         if (asset == MC.WBNB) {
