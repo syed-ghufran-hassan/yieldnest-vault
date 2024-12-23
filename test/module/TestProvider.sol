@@ -13,7 +13,9 @@ contract TestProvider is IProvider {
     error UnsupportedAsset(address asset);
 
     function getRate(address asset) external view override returns (uint256) {
-        if (asset == TC.YNWBNBK || asset == TC.YNBNBK || asset == TC.YNCLISBNBK) {
+        // support only ynWBNBK for now
+        // if (asset == TC.YNWBNBK || asset == TC.YNBNBK || asset == TC.YNCLISBNBK) {
+        if (asset == TC.YNWBNBK) {
             return IERC4626(asset).previewRedeem(1e18);
         }
 

@@ -91,14 +91,15 @@ contract DeployMaxVault is BaseScript {
 
         // add assets
         vault.addAsset(contracts.WBNB(), true);
-        vault.addAsset(contracts.SLISBNB(), true);
-        vault.addAsset(contracts.BNBX(), true);
+        // vault.addAsset(contracts.SLISBNB(), true);
+        // vault.addAsset(contracts.BNBX(), true);
 
         // TODO: confirm if these values are correct
         if (contracts.YNWBNBK() != address(0x0b)) {
             vault.addAsset(contracts.YNWBNBK(), false);
         }
-        vault.addAsset(contracts.YNBNBK(), true);
+        // disable ynbnbk for now
+        // vault.addAsset(contracts.YNBNBK(), true);
         if (contracts.YNCLISBNBK() != address(0x0c)) {
             vault.addAsset(contracts.YNCLISBNBK(), false);
         }
@@ -114,6 +115,8 @@ contract DeployMaxVault is BaseScript {
         }
 
         // ynbnbk
+        // disable ynbnbk for now
+        { /*
         setDepositRule(vault, contracts.YNBNBK());
         setWithdrawRule(vault, contracts.YNBNBK());
         address[] memory assets = new address[](3);
@@ -123,6 +126,7 @@ contract DeployMaxVault is BaseScript {
         setDepositAssetRule(vault, contracts.YNBNBK(), assets);
         setWithdrawAssetRule(vault, contracts.YNBNBK(), assets);
         setApprovalRule(vault, contracts.YNBNBK(), assets);
+        */ }
 
         // ynclisbnbk
         if (contracts.YNCLISBNBK() != address(0x0c)) {

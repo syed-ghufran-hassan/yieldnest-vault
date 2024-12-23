@@ -48,11 +48,11 @@ library TestnetContracts {
     // TODO: fix the ynwbnbk and ynclisbnbk addresses
     // bnb vault
     address public constant YNBNBK = 0x7e87787C22117374Fad2E3E2E8C6159f0875F92e;
-    address public constant YNWBNBK = address(0x0b);
+    address public constant YNWBNBK = 0xD56E193D4db8C39D102bdc3520EeF7210100b3cB;
     address public constant YNCLISBNBK = address(0x0c);
 
     address public constant PROVIDER = address(0x0d); // TODO: Update with deployed Provider
-    address public constant BUFFER = address(0x0b); // TODO: Update with deployed Buffer
+    address public constant BUFFER = 0xD56E193D4db8C39D102bdc3520EeF7210100b3cB;
 }
 
 contract ChapelContracts is IContracts {

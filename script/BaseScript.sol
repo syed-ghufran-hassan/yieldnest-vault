@@ -122,6 +122,7 @@ abstract contract BaseScript is Script, VaultUtils, ProxyUtils {
             revert InvalidSetup();
         }
         vault.grantRole(keccak256("PROCESSOR_MANAGER_ROLE"), msg.sender);
+        vault.grantRole(keccak256("BUFFER_MANAGER_ROLE"), msg.sender);
         vault.grantRole(keccak256("PROVIDER_MANAGER_ROLE"), msg.sender);
         vault.grantRole(keccak256("ASSET_MANAGER_ROLE"), msg.sender);
         vault.grantRole(keccak256("UNPAUSER_ROLE"), msg.sender);
@@ -133,6 +134,7 @@ abstract contract BaseScript is Script, VaultUtils, ProxyUtils {
         }
         vault.renounceRole(keccak256("DEFAULT_ADMIN_ROLE"), msg.sender);
         vault.renounceRole(keccak256("PROCESSOR_MANAGER_ROLE"), msg.sender);
+        vault.renounceRole(keccak256("BUFFER_MANAGER_ROLE"), msg.sender);
         vault.renounceRole(keccak256("PROVIDER_MANAGER_ROLE"), msg.sender);
         vault.renounceRole(keccak256("ASSET_MANAGER_ROLE"), msg.sender);
         vault.renounceRole(keccak256("UNPAUSER_ROLE"), msg.sender);
