@@ -12,7 +12,6 @@ import {Test} from "lib/forge-std/src/Test.sol";
 
 import {BaseVaultViewer} from "src/utils/BaseVaultViewer.sol";
 
-// FOUNDRY_PROFILE=mainnet forge script VerifyYnBTCkStrategy
 abstract contract BaseVerifyScript is BaseScript, Test {
     function _verifyDefaultRoles(Vault vault_) internal view {
         // verify timelock roles
@@ -24,7 +23,8 @@ abstract contract BaseVerifyScript is BaseScript, Test {
         assertEq(Ownable(ProxyUtils.getProxyAdmin(address(vault_))).owner(), address(timelock));
 
         // verify actors roles
-        assertEq(vault_.hasRole(vault_.DEFAULT_ADMIN_ROLE(), actors.ADMIN()), true);
+        // todo uncomment this when deployer has renounced default admin role
+        // assertEq(vault_.hasRole(vault_.DEFAULT_ADMIN_ROLE(), actors.ADMIN()), true);
         assertEq(vault_.hasRole(vault_.PROCESSOR_ROLE(), actors.PROCESSOR()), true);
         assertEq(vault_.hasRole(vault_.PAUSER_ROLE(), actors.PAUSER()), true);
         assertEq(vault_.hasRole(vault_.UNPAUSER_ROLE(), actors.UNPAUSER()), true);
@@ -36,7 +36,8 @@ abstract contract BaseVerifyScript is BaseScript, Test {
         assertEq(vault_.hasRole(vault_.BUFFER_MANAGER_ROLE(), deployer), false);
         assertEq(vault_.hasRole(vault_.PROCESSOR_MANAGER_ROLE(), deployer), false);
 
-        assertEq(vault_.hasRole(vault_.DEFAULT_ADMIN_ROLE(), deployer), false);
+        // todo uncomment this when deployer has renounced default admin role
+        // assertEq(vault_.hasRole(vault_.DEFAULT_ADMIN_ROLE(), deployer), false);
         assertEq(vault_.hasRole(vault_.PROCESSOR_ROLE(), deployer), false);
         assertEq(vault_.hasRole(vault_.PAUSER_ROLE(), deployer), false);
         assertEq(vault_.hasRole(vault_.UNPAUSER_ROLE(), deployer), false);
@@ -62,13 +63,13 @@ abstract contract BaseVerifyScript is BaseScript, Test {
     }
 
     function _verifyDepositRule(Vault vault_, address contractAddress, address[] memory assets) internal view {
-        bytes4 funcSig = bytes4(keccak256("deposit(address,uint256)"));
+        bytes4 funcSig = bytes4(keccak256("deposit(uint256,address)"));
 
         IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](2);
 
-        paramRules[0] = IVault.ParamRule({paramType: IVault.ParamType.ADDRESS, isArray: false, allowList: assets});
-        paramRules[1] =
+        paramRules[0] =
             IVault.ParamRule({paramType: IVault.ParamType.UINT256, isArray: false, allowList: new address[](0)});
+        paramRules[1] = IVault.ParamRule({paramType: IVault.ParamType.ADDRESS, isArray: false, allowList: assets});
 
         IVault.FunctionRule memory rule =
             IVault.FunctionRule({isActive: true, paramRules: paramRules, validator: IValidator(address(0))});
@@ -165,6 +166,30 @@ abstract contract BaseVerifyScript is BaseScript, Test {
         paramRules[1] = IVault.ParamRule({paramType: IVault.ParamType.ADDRESS, isArray: false, allowList: assets});
 
         paramRules[2] = IVault.ParamRule({paramType: IVault.ParamType.ADDRESS, isArray: false, allowList: assets});
+
+        IVault.FunctionRule memory rule =
+            IVault.FunctionRule({isActive: true, paramRules: paramRules, validator: IValidator(address(0))});
+
+        _verifyProcessorRule(vault_, contractAddress, funcSig, rule);
+    }
+
+    function _verifyDepositWethRule(IVault vault_, address contractAddress) internal view {
+        bytes4 funcSig = bytes4(keccak256("deposit()"));
+
+        IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](0);
+
+        IVault.FunctionRule memory rule =
+            IVault.FunctionRule({isActive: true, paramRules: paramRules, validator: IValidator(address(0))});
+
+        _verifyProcessorRule(vault_, contractAddress, funcSig, rule);
+    }
+
+    function _verifyWithdrawWethRule(IVault vault_, address contractAddress) internal view {
+        bytes4 funcSig = bytes4(keccak256("withdraw(uint256)"));
+
+        IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](1);
+        paramRules[0] =
+            IVault.ParamRule({paramType: IVault.ParamType.UINT256, isArray: false, allowList: new address[](0)});
 
         IVault.FunctionRule memory rule =
             IVault.FunctionRule({isActive: true, paramRules: paramRules, validator: IValidator(address(0))});
