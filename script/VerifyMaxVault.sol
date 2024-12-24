@@ -11,8 +11,9 @@ contract VerifyMaxVault is BaseVerifyScript {
     }
 
     function run() public {
-        _setup();
         _loadDeployment();
+        _setup();
+
         verify();
     }
 
@@ -41,8 +42,11 @@ contract VerifyMaxVault is BaseVerifyScript {
             assertTrue(isIncluded, "YNWBNBK is invalid");
             assertGt(index, 0, "YNWBNBK invalid index");
             assertEq(vault.buffer(), contracts.YNWBNBK(), "incorrect buffer");
-            _verifyDepositRule(vault, contracts.YNWBNBK(), address(vault));
-            _verifyWithdrawRule(vault, contracts.YNWBNBK(), address(vault));
+
+            _verifyDepositRule(vault, contracts.YNWBNBK());
+            _verifyWithdrawRule(vault, contracts.YNWBNBK());
+            _verifyDepositAssetRule(vault, contracts.YNWBNBK(), contracts.WBNB());
+            _verifyWithdrawAssetRule(vault, contracts.YNWBNBK(), contracts.WBNB());
             _verifyApprovalRule(vault, contracts.YNWBNBK(), contracts.WBNB());
         }
 
@@ -54,16 +58,21 @@ contract VerifyMaxVault is BaseVerifyScript {
             asset = vault.getAsset(contracts.YNCLISBNBK());
             assertEq(asset.decimals, 18, "asset[1].decimals is invalid");
             assertEq(asset.active, true, "asset[1].active is invalid");
+
+            _verifyDepositRule(vault, contracts.YNCLISBNBK());
+            _verifyWithdrawRule(vault, contracts.YNCLISBNBK());
+            _verifyDepositAssetRule(vault, contracts.YNCLISBNBK(), contracts.WBNB());
+            _verifyWithdrawAssetRule(vault, contracts.YNCLISBNBK(), contracts.WBNB());
+            _verifyApprovalRule(vault, contracts.YNCLISBNBK(), contracts.WBNB());
         }
 
-        // TODO uncomment this when WETH withdraw rule is enabled
-        // _verifyWithdrawWethRule(vault, contracts.WBNB());
-        _verifyDepositWethRule(vault, contracts.WBNB());
+        _verifyWethWithdrawRule(vault, contracts.WBNB());
+        _verifyWethDepositRule(vault, contracts.WBNB());
 
         assertFalse(vault.paused());
 
-        _verifyDefaultRoles(vault);
-        _verifyTemporaryRoles(vault);
+        _verifyDefaultRoles();
+        _verifyTemporaryRoles();
         _verifyViewer();
     }
 

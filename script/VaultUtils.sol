@@ -80,12 +80,14 @@ contract VaultUtils {
         setWithdrawAssetRule(vault_, contractAddress, allowList);
     }
 
-    function setWithdrawAssetRule(IVault vault_, address contractAddress, address[] memory allowList) internal {
+    function setWithdrawAssetRule(IVault vault_, address contractAddress, address[] memory assetList) internal {
+        address[] memory allowList = new address[](1);
+        allowList[0] = address(vault_);
         bytes4 funcSig = bytes4(keccak256("withdrawAsset(address,uint256,address,address)"));
 
         IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](4);
 
-        paramRules[0] = IVault.ParamRule({paramType: IVault.ParamType.ADDRESS, isArray: false, allowList: allowList});
+        paramRules[0] = IVault.ParamRule({paramType: IVault.ParamType.ADDRESS, isArray: false, allowList: assetList});
 
         paramRules[1] =
             IVault.ParamRule({paramType: IVault.ParamType.UINT256, isArray: false, allowList: new address[](0)});

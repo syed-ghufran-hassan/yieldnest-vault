@@ -112,6 +112,7 @@ abstract contract BaseScript is Script, VaultUtils, ProxyUtils {
         vault.grantRole(keccak256("UNPAUSER_ROLE"), actors.UNPAUSER());
 
         // set timelock roles
+        vault.grantRole(keccak256("FEE_MANAGER_ROLE"), address(timelock));
         vault.grantRole(keccak256("PROVIDER_MANAGER_ROLE"), address(timelock));
         vault.grantRole(keccak256("ASSET_MANAGER_ROLE"), address(timelock));
         vault.grantRole(keccak256("BUFFER_MANAGER_ROLE"), address(timelock));
