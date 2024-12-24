@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 
 interface IActors {
     function ADMIN() external view returns (address);
+    function UNAUTHORIZED() external view returns (address);
     function PROPOSER_1() external view returns (address);
     function PROPOSER_2() external view returns (address);
     function EXECUTOR_1() external view returns (address);
@@ -28,37 +29,43 @@ interface IActors {
 }
 
 contract TestnetActors is IActors {
-    address public constant ynSecurityCouncil = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
-    address public constant ADMIN = ynSecurityCouncil;
-    address public constant PROCESSOR = ynSecurityCouncil;
-    address public constant PROPOSER_1 = ynSecurityCouncil;
-    address public constant PROPOSER_2 = ynSecurityCouncil;
-    address public constant EXECUTOR_1 = ynSecurityCouncil;
-    address public constant EXECUTOR_2 = ynSecurityCouncil;
+    // solhint-disable-next-line const-name-snakecase
+    address public constant YnSecurityCouncil = 0x72fdBD51085bDa5eEEd3b55D1a46E2e92f0837a5;
 
-    address public constant FEE_MANAGER = ynSecurityCouncil;
-    address public constant PROVIDER_MANAGER = ynSecurityCouncil;
-    address public constant BUFFER_MANAGER = ynSecurityCouncil;
-    address public constant ASSET_MANAGER = ynSecurityCouncil;
-    address public constant PROCESSOR_MANAGER = ynSecurityCouncil;
-    address public constant PAUSER = ynSecurityCouncil;
-    address public constant UNPAUSER = ynSecurityCouncil;
+    address public constant ADMIN = YnSecurityCouncil;
+    address public constant UNAUTHORIZED = address(0);
+    address public constant PROCESSOR = YnSecurityCouncil;
+    address public constant PROPOSER_1 = YnSecurityCouncil;
+    address public constant PROPOSER_2 = YnSecurityCouncil;
+    address public constant EXECUTOR_1 = YnSecurityCouncil;
+    address public constant EXECUTOR_2 = YnSecurityCouncil;
+
+    address public constant FEE_MANAGER = YnSecurityCouncil;
+    address public constant PROVIDER_MANAGER = YnSecurityCouncil;
+    address public constant BUFFER_MANAGER = YnSecurityCouncil;
+    address public constant ASSET_MANAGER = YnSecurityCouncil;
+    address public constant PROCESSOR_MANAGER = YnSecurityCouncil;
+    address public constant PAUSER = YnSecurityCouncil;
+    address public constant UNPAUSER = YnSecurityCouncil;
 }
 
 contract MainnetActors is IActors {
-    address public constant ynSecurityCouncil = 0xfcad670592a3b24869C0b51a6c6FDED4F95D6975;
-    address public constant ADMIN = ynSecurityCouncil;
-    address public constant PROCESSOR = ynSecurityCouncil;
-    address public constant EXECUTOR_1 = ynSecurityCouncil;
-    address public constant PROPOSER_1 = ynSecurityCouncil;
-    address public constant EXECUTOR_2 = ynSecurityCouncil;
-    address public constant PROPOSER_2 = ynSecurityCouncil;
+    // solhint-disable-next-line const-name-snakecase
+    address public constant YnSecurityCouncil = 0x721688652DEa9Cabec70BD99411EAEAB9485d436;
 
-    address public constant FEE_MANAGER = ynSecurityCouncil;
-    address public constant PROVIDER_MANAGER = ynSecurityCouncil;
-    address public constant BUFFER_MANAGER = ynSecurityCouncil;
-    address public constant ASSET_MANAGER = ynSecurityCouncil;
-    address public constant PROCESSOR_MANAGER = ynSecurityCouncil;
-    address public constant PAUSER = ynSecurityCouncil;
-    address public constant UNPAUSER = ynSecurityCouncil;
+    address public constant ADMIN = YnSecurityCouncil;
+    address public constant UNAUTHORIZED = address(0);
+    address public constant PROCESSOR = 0x258d7614d9c608D191A8a103f95B7Df066a19bbF;
+    address public constant EXECUTOR_1 = YnSecurityCouncil;
+    address public constant PROPOSER_1 = YnSecurityCouncil;
+    address public constant EXECUTOR_2 = YnSecurityCouncil;
+    address public constant PROPOSER_2 = YnSecurityCouncil;
+
+    address public constant FEE_MANAGER = YnSecurityCouncil;
+    address public constant PROVIDER_MANAGER = YnSecurityCouncil;
+    address public constant BUFFER_MANAGER = YnSecurityCouncil;
+    address public constant ASSET_MANAGER = YnSecurityCouncil;
+    address public constant PROCESSOR_MANAGER = YnSecurityCouncil;
+    address public constant PAUSER = 0x7B4B43f00cf80AABda8F72d61b129F1e7F86fCaF;
+    address public constant UNPAUSER = YnSecurityCouncil;
 }
