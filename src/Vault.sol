@@ -9,6 +9,8 @@ import {Math} from "./Common.sol";
 contract Vault is BaseVault {
     using Math for uint256;
 
+    string public constant VAULT_VERSION = "0.1.1";
+
     error ExceedsMaxBasisPoints();
 
     bytes32 public constant FEE_MANAGER_ROLE = keccak256("FEE_MANAGER_ROLE");
@@ -75,10 +77,6 @@ contract Vault is BaseVault {
             return 0;
         }
         return FeeMath.feeOnTotal(assets, baseWithdrawalFee_);
-    }
-
-    function _bufferMaxSize(uint256 totalAssets_, uint256 bufferFraction_) internal pure returns (uint256) {
-        return totalAssets_.mulDiv(bufferFraction_, FeeMath.BASIS_POINT_SCALE, Math.Rounding.Floor);
     }
 
     //// FEES ADMIN ////
