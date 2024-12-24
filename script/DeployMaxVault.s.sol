@@ -140,6 +140,7 @@ contract DeployMaxVault is BaseScript {
         // wbnb
         setWethDepositRule(vault, contracts.WBNB());
         setWithdrawAssetRule(vault, contracts.YNCLISBNBK(), contracts.WBNB());
+        setWethWithdrawRule(vault, contracts.WBNB());
 
         vault.unpause();
 
