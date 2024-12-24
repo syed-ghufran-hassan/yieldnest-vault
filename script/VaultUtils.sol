@@ -83,7 +83,6 @@ contract VaultUtils {
     function setWithdrawAssetRule(IVault vault_, address contractAddress, address[] memory assetList) internal {
         address[] memory allowList = new address[](1);
         allowList[0] = address(vault_);
-
         bytes4 funcSig = bytes4(keccak256("withdrawAsset(address,uint256,address,address)"));
 
         IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](4);
@@ -130,6 +129,20 @@ contract VaultUtils {
         bytes4 funcSig = bytes4(keccak256("deposit()"));
 
         IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](0);
+
+        IVault.FunctionRule memory rule =
+            IVault.FunctionRule({isActive: true, paramRules: paramRules, validator: IValidator(address(0))});
+
+        vault_.setProcessorRule(weth_, funcSig, rule);
+    }
+
+    function setWethWithdrawRule(IVault vault_, address weth_) internal {
+        bytes4 funcSig = bytes4(keccak256("withdraw(uint256)"));
+
+        IVault.ParamRule[] memory paramRules = new IVault.ParamRule[](1);
+
+        paramRules[0] =
+            IVault.ParamRule({paramType: IVault.ParamType.UINT256, isArray: false, allowList: new address[](0)});
 
         IVault.FunctionRule memory rule =
             IVault.FunctionRule({isActive: true, paramRules: paramRules, validator: IValidator(address(0))});
