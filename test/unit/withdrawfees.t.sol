@@ -104,6 +104,66 @@ contract VaultWithdrawFeesUnitTest is Test, MainnetActors, Etches {
         assertApproxEqAbs(withdrawPreview, expectedShares, 1, "Preview withdraw shares should match expected");
     }
 
+    function test_Vault_redeemWithFeesMaxAmount(uint256 assets) external {
+        // Bound inputs to valid ranges
+        vm.assume(assets >= 100000 && assets <= 100_000 ether);
+
+        vm.prank(alice);
+        vault.deposit(assets, alice);
+
+        vm.prank(ADMIN);
+        allocateToBuffer(assets);
+
+        uint256 maxShares = vault.maxRedeem(alice);
+        uint256 expectedAssets = vault.previewRedeem(maxShares);
+
+        uint256 convertedAssets = vault.convertToAssets(maxShares);
+        uint256 expectedFee = (expectedAssets * vault.baseWithdrawalFee()) / FeeMath.BASIS_POINT_SCALE;
+
+        vm.prank(alice);
+        uint256 redeemedAmount = vault.redeem(maxShares, alice, alice);
+
+        assertApproxEqRel(redeemedAmount, expectedAssets, 1e14, "Redeemed amount should match preview");
+
+        assertApproxEqRel(
+            redeemedAmount, convertedAssets - expectedFee, 1e14, "Redeemed amount should be total assets minus fee"
+        );
+
+        assertEq(vault.balanceOf(alice), 0, "Alice should have no shares remaining");
+    }
+
+    function test_Vault_maxWithdrawWithFullBuffer(uint256 assets) external {
+        // Bound inputs to valid ranges
+        vm.assume(assets >= 1000 && assets <= 100_000 ether);
+
+        //uint256 assets = 117300740;
+
+        vm.prank(alice);
+        vault.deposit(assets, alice);
+
+        // Allocate full amount to buffer
+        vm.prank(ADMIN);
+        allocateToBuffer(assets);
+
+        uint256 maxWithdraw = vault.maxWithdraw(alice);
+        uint256 previewRedeemAssets = vault.previewRedeem(vault.balanceOf(alice));
+
+        // Since buffer has full amount, maxWithdraw should equal previewRedeemAssets
+        assertEq(
+            maxWithdraw, previewRedeemAssets, "Max withdraw should equal previewRedeemAssets assets with full buffer"
+        );
+
+        uint256 expectedFee = (maxWithdraw * vault.baseWithdrawalFee()) / FeeMath.BASIS_POINT_SCALE;
+        uint256 expectedShares = vault.convertToShares(maxWithdraw + expectedFee);
+
+        // Verify we can actually withdraw the max amount
+        vm.prank(alice);
+        uint256 withdrawnShares = vault.withdraw(maxWithdraw, alice, alice);
+
+        assertApproxEqAbs(withdrawnShares, expectedShares, 2, "Withdrawn shares should match expected with fee");
+        assertApproxEqAbs(vault.balanceOf(alice), 0, 1, "Alice should have no shares remaining");
+    }
+
     function test_Vault_redeemWithFees(uint256 assets, uint256 withdrawnAssets) external {
         // Bound inputs to valid ranges
         vm.assume(assets >= 100000 && assets <= 100_000 ether);
@@ -136,6 +196,11 @@ contract VaultWithdrawFeesUnitTest is Test, MainnetActors, Etches {
 
         vm.prank(ADMIN);
         allocateToBuffer(assets);
+
+        uint256 maxWithdraw = vault.maxWithdraw(alice);
+        if (withdrawnAssets > maxWithdraw) {
+            withdrawnAssets = maxWithdraw;
+        }
 
         uint256 expectedFee = (withdrawnAssets * vault.baseWithdrawalFee()) / FeeMath.BASIS_POINT_SCALE;
         uint256 expectedShares = vault.convertToShares(withdrawnAssets + expectedFee);

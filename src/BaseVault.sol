@@ -154,7 +154,7 @@ abstract contract BaseVault is IVault, ERC20PermitUpgradeable, AccessControlUpgr
         }
 
         uint256 ownerShares = balanceOf(owner);
-        uint256 maxAssets = convertToAssets(ownerShares);
+        uint256 maxAssets = previewRedeem(ownerShares);
 
         return bufferAssets < maxAssets ? bufferAssets : maxAssets;
     }
@@ -229,6 +229,7 @@ abstract contract BaseVault is IVault, ERC20PermitUpgradeable, AccessControlUpgr
             revert ExceededMaxWithdraw(owner, assets, maxAssets);
         }
         shares = previewWithdraw(assets);
+
         _withdraw(_msgSender(), receiver, owner, assets, shares);
     }
 
