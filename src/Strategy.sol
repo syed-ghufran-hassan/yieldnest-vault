@@ -16,6 +16,7 @@ contract Strategy is BaseVault {
         external
         initializer
     {
+require(admin != address(0), "Strategy: admin cannot be the zero address");
         __ERC20_init(name, symbol);
         __AccessControl_init();
         __ReentrancyGuard_init();
